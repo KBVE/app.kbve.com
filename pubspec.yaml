@@ -1,5 +1,5 @@
-name: admin
-description: A new Flutter project.
+name: KBVE
+description: KBVE - Based upon Flutter
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -30,9 +30,12 @@ dependencies:
 
   google_fonts: ^2.1.0
   flutter_svg: ^0.22.0
-  fl_chart: ^0.36.1
-  provider: ^5.0.0
-  data_table_2: ^2.0.3
+  fl_chart: ^0.55.0
+  provider: ^6.0.3
+  data_table_2: ^2.3.3
+  #fl_chart: ^0.36.1
+  #provider: ^5.0.0
+  #data_table_2: ^2.0.3
 
 dev_dependencies:
   flutter_test:
