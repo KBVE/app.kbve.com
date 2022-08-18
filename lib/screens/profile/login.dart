@@ -3,8 +3,10 @@ import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../dashboard/components/header.dart';
+
 import '../../constants.dart';
-import 'components/side_menu.dart';
+import '../main/components/side_menu.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -26,7 +28,7 @@ class LoginScreen extends StatelessWidget {
             Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
-              child: _LoginScreen(),
+              child: __LoginScreen(),
             ),
           ],
         ),
@@ -35,7 +37,7 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class _LoginScreen extends StatelessWidget {
+class __LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,7 +46,7 @@ class _LoginScreen extends StatelessWidget {
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            //Header(),
+            Header(),
             SizedBox(height: defaultPadding),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

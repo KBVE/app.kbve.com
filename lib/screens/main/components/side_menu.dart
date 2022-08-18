@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+// Go Router
+import 'package:go_router/go_router.dart';
+
 class SideMenu extends StatelessWidget {
   const SideMenu({
     Key? key,
@@ -17,12 +20,16 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashboard.svg",
-            press: () {},
+            press: () {
+              GoRouter.of(context).go('/');
+            },
           ),
           DrawerListTile(
-            title: "Transaction",
+            title: "Asset",
             svgSrc: "assets/icons/menu_tran.svg",
-            press: () {},
+            press: () {
+              GoRouter.of(context).go('/asset');
+            },
           ),
           DrawerListTile(
             title: "Task",
@@ -47,7 +54,9 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Profile",
             svgSrc: "assets/icons/menu_profile.svg",
-            press: () {},
+            press: () {
+              GoRouter.of(context).go('/login');
+            },
           ),
           DrawerListTile(
             title: "Settings",

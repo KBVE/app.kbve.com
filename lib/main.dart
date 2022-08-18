@@ -1,7 +1,7 @@
 import 'package:admin/constants.dart';
 import 'package:admin/controllers/MenuController.dart';
 import 'package:admin/screens/main/main_screen.dart';
-import 'package:admin/screens/main/login.dart';
+import 'package:admin/screens/profile/login.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,8 +52,11 @@ class _HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text(MyApp.title)),
-        body: Center(
+        appBar: AppBar(
+          title: const Text(MyApp.title),
+          //leading: (),
+        ),
+        body: Container(
             child: MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => MenuController())
@@ -68,8 +71,11 @@ class _LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text(MyApp.title)),
-        body: Center(
+        appBar: AppBar(
+          title: const Text("KBVE.com Login"),
+          //leading: (BackButton()),
+        ),
+        body: Container(
             child: MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => MenuController())
