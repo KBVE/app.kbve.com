@@ -3,6 +3,9 @@ import 'package:admin/controllers/MenuController.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:admin/screens/profile/login.dart';
 
+// Asset
+import 'package:admin/screens/asset/asset.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -40,11 +43,44 @@ class MyApp extends StatelessWidget {
         builder: (context, state) => _HomeScreen(),
       ),
       GoRoute(
+        name: 'login',
         path: '/login',
-        builder: (context, state) => _LoginScreen(),
+        //builder: (context, state) => _LoginScreen(),
+        pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            restorationId: state.pageKey.value,
+            child: const _LoginScreen()),
       ),
+      GoRoute(
+          path: '/asset',
+          builder: (context, state) => _AssetScreen(),
+          routes: [
+            GoRoute(
+              path: ':id',
+              builder: (_, __) => _AssetScreen(),
+            ),
+          ])
     ],
   );
+}
+
+class _AssetScreen extends StatelessWidget {
+  const _AssetScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text('KBVE Asset'),
+          //leading: (),
+        ),
+        body: Container(
+            child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => MenuController())
+          ],
+          child: AssetScreen(),
+        )),
+      );
 }
 
 class _HomeScreen extends StatelessWidget {
