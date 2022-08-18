@@ -40,83 +40,51 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => _HomeScreen(),
-      ),
-      GoRoute(
-        name: 'login',
-        path: '/login',
-        //builder: (context, state) => _LoginScreen(),
-        pageBuilder: (context, state) => MaterialPage<void>(
-            key: state.pageKey,
-            restorationId: state.pageKey.value,
-            child: const _LoginScreen()),
-      ),
-      GoRoute(
-          path: '/asset',
-          builder: (context, state) => _AssetScreen(),
-          routes: [
-            GoRoute(
-              path: ':id',
-              builder: (_, __) => _AssetScreen(),
-            ),
-          ])
-    ],
-  );
-}
-
-class _AssetScreen extends StatelessWidget {
-  const _AssetScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text('KBVE Asset'),
-          //leading: (),
-        ),
-        body: Container(
-            child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context) => MenuController())
-          ],
-          child: AssetScreen(),
-        )),
-      );
-}
-
-class _HomeScreen extends StatelessWidget {
-  const _HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text(MyApp.title),
-          //leading: (),
-        ),
-        body: Container(
+        builder: (context, state) => Container(
             child: MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => MenuController())
           ],
           child: MainScreen(),
         )),
-      );
-}
-
-class _LoginScreen extends StatelessWidget {
-  const _LoginScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text("KBVE.com Login"),
-          //leading: (BackButton()),
+      ),
+      GoRoute(
+        name: 'login',
+        path: '/login',
+        //builder: (context, state) => _LoginScreen(),
+        pageBuilder: (context, state) => MaterialPage<void>(
+          key: state.pageKey,
+          restorationId: state.pageKey.value,
+          child: Container(
+              child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (context) => MenuController())
+            ],
+            child: LoginScreen(),
+          )),
         ),
-        body: Container(
-            child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context) => MenuController())
-          ],
-          child: LoginScreen(),
-        )),
-      );
+      ),
+      GoRoute(
+          path: '/asset',
+          builder: (context, state) => Container(
+                  child: MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(create: (context) => MenuController())
+                ],
+                child: AssetScreen(),
+              )),
+          routes: [
+            GoRoute(
+              path: ':id',
+              builder: (_, __) => Container(
+                  child: MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(create: (context) => MenuController())
+                ],
+                child: AssetScreen(),
+              )),
+            ),
+          ])
+    ],
+  );
 }
