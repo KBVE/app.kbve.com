@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('KBVE Login')),
+      //appBar: AppBar(title: Text('KBVE Login')),
       key: context.read<MenuController>().scaffoldKey,
       drawer: SideMenu(),
       body: SafeArea(

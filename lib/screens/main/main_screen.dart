@@ -10,6 +10,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //appBar: AppBar(title: Text('KBVE Main')),
       key: context.read<MenuController>().scaffoldKey,
       drawer: SideMenu(),
       body: SafeArea(

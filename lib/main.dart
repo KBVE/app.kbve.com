@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => VE(lovechild: MainScreen()),
+        builder: (_, __) => VE(lovechild: MainScreen()),
       ),
       GoRoute(
         name: 'login',
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       ),
       GoRoute(
           path: '/asset',
-          builder: (context, state) => VE(lovechild: AssetScreen()),
+          builder: (_, __) => VE(lovechild: AssetScreen()),
           routes: [
             GoRoute(
               path: ':id',
@@ -75,11 +75,12 @@ class _VE extends State<VE> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: MultiProvider(
+        child: Container(
+            child: MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => MenuController())
       ],
       child: widget.lovechild,
-    ));
+    )));
   }
 }
