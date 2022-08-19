@@ -40,51 +40,46 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => Container(
-            child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context) => MenuController())
-          ],
-          child: MainScreen(),
-        )),
+        builder: (context, state) => VE(lovechild: MainScreen()),
       ),
       GoRoute(
         name: 'login',
         path: '/login',
-        //builder: (context, state) => _LoginScreen(),
         pageBuilder: (context, state) => MaterialPage<void>(
           key: state.pageKey,
           restorationId: state.pageKey.value,
-          child: Container(
-              child: MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (context) => MenuController())
-            ],
-            child: LoginScreen(),
-          )),
+          child: VE(lovechild: LoginScreen()),
         ),
       ),
       GoRoute(
           path: '/asset',
-          builder: (context, state) => Container(
-                  child: MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(create: (context) => MenuController())
-                ],
-                child: AssetScreen(),
-              )),
+          builder: (context, state) => VE(lovechild: AssetScreen()),
           routes: [
             GoRoute(
               path: ':id',
-              builder: (_, __) => Container(
-                  child: MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(create: (context) => MenuController())
-                ],
-                child: AssetScreen(),
-              )),
+              builder: (_, __) => VE(lovechild: AssetScreen()),
             ),
           ])
     ],
   );
+}
+
+class VE extends StatefulWidget {
+  final Widget lovechild;
+  const VE({Key? key, required this.lovechild}) : super(key: key);
+  @override
+  State<VE> createState() => _VE();
+}
+
+class _VE extends State<VE> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => MenuController())
+      ],
+      child: widget.lovechild,
+    ));
+  }
 }
