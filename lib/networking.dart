@@ -1,7 +1,10 @@
+// JSON Converter
 import 'dart:convert';
-
+// HTTP
 import 'package:http/http.dart' as http;
 
+// NetService - WIP
+// Known error -> "A value of type 'void' can't be returned by the 'onError' handler because it must be assignable to FutureOr<T?>"
 class NetService {
   /* ---------------------------------------------------------------------------- */
   static Future<T?> getJson<T>(String url) {

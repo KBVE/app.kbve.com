@@ -34,17 +34,23 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Task",
             svgSrc: "assets/icons/menu_task.svg",
-            press: () {},
+            press: () {
+              GoRouter.of(context).go('/task');
+            },
           ),
           DrawerListTile(
             title: "Documents",
             svgSrc: "assets/icons/menu_doc.svg",
-            press: () {},
+            press: () {
+              GoRouter.of(context).go('/note');
+            },
           ),
           DrawerListTile(
             title: "Store",
             svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
+            press: () {
+              GoRouter.of(context).go('/store');
+            },
           ),
           DrawerListTile(
             title: "Notification",
