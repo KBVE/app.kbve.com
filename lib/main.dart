@@ -1,6 +1,4 @@
 // Constants
-import 'dart:collection';
-
 import 'package:admin/constants.dart';
 
 // Menu Controller
@@ -76,8 +74,11 @@ class MyApp extends StatelessWidget {
             GoRoute(
                 path: ':id',
                 builder: (_, __) {
-                  final asset = fetchAsset(__.params['id']!);
-                  return VE(lovechild: AssetRender());
+                  //final asset = fetchAsset(__.params['id']!);
+                  return VE(
+                      lovechild: AssetRender(
+                    asset: __.params['id'],
+                  ));
                 }),
           ])
     ],

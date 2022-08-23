@@ -67,14 +67,18 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Settings",
             svgSrc: "assets/icons/menu_setting.svg",
-            press: () {},
+            press: () {
+              GoRouter.of(context).go('/setting');
+            },
           ),
           DrawerListTile(
             // Charts Button
             title: "Charts",
             // Change the svgSrc later on.
             svgSrc: "assets/icons/menu_setting.svg",
-            press: () {},
+            press: () {
+              GoRouter.of(context).go('/charts');
+            },
           ),
         ],
       ),

@@ -5,7 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 
 // Foundation
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 
 // HTTP (The other option would be to use our networking.dart but that might be later down the line.)
 import 'package:http/http.dart' as http;
@@ -35,7 +35,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // API Location
-const apiLoc = 'https://kbve.com/assets/';
+const apiLoc = 'https://a.kbve.com/stocks/';
 
 class AssetDB {
   late Map<String, dynamic> data;
@@ -54,42 +54,39 @@ class AssetDB {
 class Asset {
   final String? title;
   final String? exchange;
-  final int? id;
+  final String? ticker;
   final Map<String, dynamic>? assetData;
 
   const Asset({
     this.title,
     this.exchange,
-    this.id,
+    this.ticker,
     this.assetData,
   });
 
   factory Asset.fromJson(Map<String, dynamic> json) {
     return Asset(
       exchange: json['exchange'] as String,
-      id: json['id'] as int,
+      ticker: json['ticker'] as String,
       title: json['title'] as String,
     );
   }
 }
 
 Future<Asset> fetchAsset(String kbve) async {
-  final res = await http.get(Uri.parse('$apiLoc$kbve'));
-  // Use the compute function to run parsePhotos in a separate isolate.
+  final res = await http.get(Uri.parse('$apiLoc$kbve.json'));
   return Asset.fromJson(jsonDecode(res.body));
 }
 
 class AssetRender extends StatefulWidget {
-  final Asset? asset;
-  AssetRender({Key? key, this.asset}) : super(key: key);
+  final String? asset;
+  AssetRender({Key? key, required this.asset}) : super(key: key);
 
   @override
   _AssetRender createState() => _AssetRender();
 }
 
 class _AssetRender extends State<AssetRender> {
-  get asset => this.asset;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +106,7 @@ class _AssetRender extends State<AssetRender> {
             Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
-              child: AssetChart(asset: asset),
+              child: AssetChart(asset: widget.asset),
             ),
           ],
         ),
@@ -119,7 +116,8 @@ class _AssetRender extends State<AssetRender> {
 }
 
 class AssetChart extends StatefulWidget {
-  final Asset? asset;
+  //final Asset? asset;
+  final String? asset;
   AssetChart({Key? key, required this.asset}) : super(key: key);
 
   @override
@@ -127,29 +125,29 @@ class AssetChart extends StatefulWidget {
 }
 
 class _AssetChart extends State<AssetChart> {
-  String get asset => this.asset;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: context.read<MenuController>().scaffoldKey,
-      drawer: SideMenu(),
-      body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      child: SingleChildScrollView(
+        primary: false,
+        padding: EdgeInsets.all(defaultPadding),
+        child: Column(
           children: [
-            // We want this side menu only for large screen
-            if (Responsive.isDesktop(context))
-              Expanded(
-                // default flex = 1
-                // and it takes 1/6 part of the screen
-                child: SideMenu(),
-              ),
-            Expanded(
-              // It takes 5/6 part of the screen
-              flex: 5,
-              child: Text(asset),
-            ),
+            Header(),
+            SizedBox(height: defaultPadding),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Column(
+                    children: [
+                      Text({widget.asset}.toString()),
+                    ],
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),
