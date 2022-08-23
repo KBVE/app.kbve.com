@@ -1,42 +1,67 @@
-// Async
+//  Library: Dart - Async
+//  Purpose: Help with the performance and threading of the application.
 import 'dart:async';
 
-// JSON Converter
+//  Library: Dart - Converter
+//  Purpose: Converting JSON <---> Map Objects.
 import 'dart:convert';
 
-// Foundation
-//import 'package:flutter/foundation.dart';
+//  Library: Flutter -> Foundation
+//  Eviction: We are currently not using foundation, this is a library that we need to spend more time to understand.
+//  import 'package:flutter/foundation.dart';
 
-// HTTP (The other option would be to use our networking.dart but that might be later down the line.)
+//  Library: Dart HTTP
+//  Purpose: Pulling information from static and server APIs.
 import 'package:http/http.dart' as http;
 
-// Constants
+//  Library: (Self) -> Constants
+//  Purpose: Storing constant variables throughout the application.
 import 'package:admin/constants.dart';
 
-// Menu Controller
+//  Library <Prospect> : Dart - localStorage
+//  Purpose: Storing abstract map objects/data for the application.
+//  Event: v2 Migration - During the 2nd version phase of the app, we will being utilizing localStorage.
+
+//  Library: (Self) -> Controllers -> Menu Controller
+//  Purpose: Handling the menu / drawer for the application.
 import 'package:admin/controllers/MenuController.dart';
 
-// Networking Library (We will most likely remove this import.)
+//  Library: (Util) -> Networking
+//  Purpose: Pulling and handling information from static and server APIs.
+//  Eviction: Networking Library will most likely removed during the migration to v2
+//  Event: v3 Migration - During the 3rd version phase of the app, we will be restructuring the networking, removing this library.
 import 'package:admin/networking.dart';
 
-// Responsive
+//  Library: (Self) -> Responsive
+//  Purpose: Dynamically shift the UX/UI based upon the screen width / height and/or the device that the app is operating on.
+//  Event: vX <TO:DO> - Restructure / refactor the library.
 import 'package:admin/responsive.dart';
 
-// Header
+//  Library: (Comp) -> Header
+//  Purpose: Providing the <Head> level information within the application; the contents of the <Head> will be in reference to the <User Data> | UI/UX.
+//  Event: v2 Migration - The current plan would be to pull the user information from localStorage and/or the server API.
 import 'package:admin/screens/dashboard/components/header.dart';
 
-// Side Menu
+//  Library: (Comp) -> Side Menu
+//  Purpose: Rendering the side menu with quick links to important router locations within the application.
 import 'package:admin/screens/main/components/side_menu.dart';
 
-// UI / UX from Material
+//  Library: Flutter -> Material
+//  Purpose: Providing the inner core of the UI/UX for the application, as well as, the main aesthetics for the application front end design.
 import 'package:flutter/material.dart';
 
-// Provider
+//  Library: Provider
+//  Purpose: A wrapper for the widgets that will be handle the state / action management.
 import 'package:provider/provider.dart';
 
-// API Location
+//  Constant: API Location
+//  Event: v1 Migration <Current Instance> : This variable will be moved over to the constants.
 const apiLoc = 'https://a.kbve.com/stocks/';
 
+// Default Asset Structures and Classes
+
+// AssetDB - Will be removed or replaced in v2.
+// There is an issue with NetService and how the "Future" aspect is being handled.
 class AssetDB {
   late Map<String, dynamic> data;
 
@@ -51,6 +76,11 @@ class AssetDB {
   }
 }
 
+// <Asset> Class/Object that will have to be rebuilt in v2.
+// Title - Asset's Entity Name ? Legal D/B/A
+// Exchange - Asset's Exchange - Where the asset is traded / liquidated.
+// Ticker - TBD.
+// ISO - TBD.
 class Asset {
   final String? title;
   final String? exchange;
@@ -63,6 +93,8 @@ class Asset {
     this.ticker,
     this.assetData,
   });
+
+// Factory Asset.fromJSON
 
   factory Asset.fromJson(Map<String, dynamic> json) {
     return Asset(
@@ -115,6 +147,9 @@ class _AssetRender extends State<AssetRender> {
   }
 }
 
+// Asset Chart - Stateful Widget
+// The Widget will render a chart for the asset.
+
 class AssetChart extends StatefulWidget {
   //final Asset? asset;
   final String? asset;
@@ -124,6 +159,7 @@ class AssetChart extends StatefulWidget {
   _AssetChart createState() => _AssetChart();
 }
 
+// Extension of AssetChart
 class _AssetChart extends State<AssetChart> {
   @override
   Widget build(BuildContext context) {
@@ -154,6 +190,9 @@ class _AssetChart extends State<AssetChart> {
     );
   }
 }
+
+// Asset Screen
+// This is the default screen that is rendered without params being passed through.
 
 class AssetScreen extends StatelessWidget {
   @override

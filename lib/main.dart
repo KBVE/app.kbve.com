@@ -1,6 +1,17 @@
-// Constants
+/*  [INFO]  */
+//  Library: Main Dart
+//  Purpose: Nerves System and Brain off the application.
+/*  [START] */
+//
+//
+/*  [IMPORT]  */
+//
+//
+//  Library: (Self) -> Constants
+//  Purpose: Storing constant variables throughout the application.
 import 'package:admin/constants.dart';
-
+//
+//
 // Menu Controller
 import 'package:admin/controllers/MenuController.dart';
 
