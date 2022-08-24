@@ -1,29 +1,53 @@
-//  Library: Dart - Async
-//  Purpose: Help with the performance and threading of the application.
+//*  [INFO]  */
+///  Library: Asset Dart
+/// Purpose: Handling the asset data and screens for the application.
+//?   ?CONCEPT: Refactor by reducing and reusing the main widget.
+//?   ?SUGGESTION: Restructure the asset class.
+//*  [START] */
+///
+///
+//!  [IMPORT]  */
+///
+//!  [IMPORT] -> [EXT] */
+///
+///  Library: Dart - Async
+///  Purpose: Help with the performance and threading of the application.
 import 'dart:async';
 
-//  Library: Dart - Converter
-//  Purpose: Converting JSON <---> Map Objects.
+///
+///
+///  Library: Dart - Converter
+///  Purpose: Converting JSON <---> Map Objects.
 import 'dart:convert';
 
-//  Library: Flutter -> Foundation
-//  Eviction: We are currently not using foundation, this is a library that we need to spend more time to understand.
-//  import 'package:flutter/foundation.dart';
+///  Library: Flutter -> Foundation
+///  Eviction: We are currently not using foundation, this is a library that we need to spend more time to understand.
+///  import 'package:flutter/foundation.dart';
+///  Library: Flutter -> Material
+///  Purpose: Providing the inner core of the UI/UX for the application, as well as, the main aesthetics for the application front end design.
+import 'package:flutter/material.dart';
 
-//  Library: Dart HTTP
-//  Purpose: Pulling information from static and server APIs.
+///   Library: Provider
+///   Purpose: A wrapper for the widgets that will be handle the state / action management.
+import 'package:provider/provider.dart';
+
+///  Library: Dart HTTP
+///  Purpose: Pulling information from static and server APIs.
 import 'package:http/http.dart' as http;
 
-//  Library: (Self) -> Constants
-//  Purpose: Storing constant variables throughout the application.
+///
+//!  [IMPORT] -> [APP]
+///
+///  Library: (Self) -> Constants
+///  Purpose: Storing constant variables throughout the application.
 import 'package:admin/constants.dart';
 
-//  Library <Prospect> : Dart - localStorage
-//  Purpose: Storing abstract map objects/data for the application.
-//  Event: v2 Migration - During the 2nd version phase of the app, we will being utilizing localStorage.
+//*  Library <Prospect> : Dart - localStorage
+///  Purpose: Storing abstract map objects/data for the application.
+//?  Event: v2 Migration - During the 2nd version phase of the app, we will being utilizing localStorage.
 
-//  Library: (Self) -> Controllers -> Menu Controller
-//  Purpose: Handling the menu / drawer for the application.
+//*  Library: (Self) -> Controllers -> Menu Controller
+///  Purpose: Handling the menu / drawer for the application.
 import 'package:admin/controllers/MenuController.dart';
 
 //  Library: (Util) -> Networking
@@ -45,14 +69,6 @@ import 'package:admin/screens/dashboard/components/header.dart';
 //  Library: (Comp) -> Side Menu
 //  Purpose: Rendering the side menu with quick links to important router locations within the application.
 import 'package:admin/screens/main/components/side_menu.dart';
-
-//  Library: Flutter -> Material
-//  Purpose: Providing the inner core of the UI/UX for the application, as well as, the main aesthetics for the application front end design.
-import 'package:flutter/material.dart';
-
-//  Library: Provider
-//  Purpose: A wrapper for the widgets that will be handle the state / action management.
-import 'package:provider/provider.dart';
 
 //  Constant: API Location
 //  Event: v1 Migration <Current Instance> : This variable will be moved over to the constants.

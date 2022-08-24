@@ -52,8 +52,11 @@ import 'package:admin/screens/profile/login.dart';
 import 'package:admin/screens/asset/asset.dart';
 //
 
-//  ![FUNDAMENTAL]
-//  Main (void)(f) runs app.
+///
+//! [FUNDAMENTAL]
+///
+
+///  Main (void)(f) runs app.
 void main() {
   runApp(MyApp());
 }

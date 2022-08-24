@@ -33,11 +33,10 @@ const bgColor = Color(0xFF212332);
 const defaultPadding = 16.0;
 //
 
-
 //  Constant: Static API
 //  Purpose:  Location of the static API for the application.
-//  Event:    v1 Migration <CurrentInstance> | Still working out the generation of the static API, we could use Lunr.js for the library. 
-//  const staticAPI = '';
+//  Event:    v1 Migration <CurrentInstance> | Still working out the generation of the static API, we could use Lunr.js for the library.
+const staticAPI = 'https://a.kbve.com/assets/';
 
 //  Constant: REST API
 //  Purpose:  Location of the RESTFul API for the application.
@@ -46,8 +45,7 @@ const defaultPadding = 16.0;
 
 //  Constant: GraphQL API
 //  Purpose:  Location of the GraphQL API for the application.
-//  Event:    vX || Null as of right now. 
+//  Event:    vX || Null as of right now.
 //  const gAPI  = '';
-
 
 /*  [END] */
