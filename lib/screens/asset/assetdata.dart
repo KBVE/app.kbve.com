@@ -120,40 +120,56 @@ import 'package:admin/screens/main/components/side_menu.dart';
 ///   ISO - TBD.
 ///
 class Asset {
-  final String? title;
-  final String? exchange;
-  final String? ticker;
+  final String name;
+  final String title;
+  final String exchange;
+  final String ticker;
   final String? location;
 
   const Asset({
-    this.title,
-    this.exchange,
-    this.ticker,
+    required this.name,
+    required this.title,
+    required this.exchange,
+    required this.ticker,
     this.location,
   });
 
   factory Asset.fromJson(Map<String, dynamic> json) {
+    final location = json['location'] as String?;
     return Asset(
+      name: json['name'] as String,
       exchange: json['exchange'] as String,
       ticker: json['ticker'] as String,
       title: json['title'] as String,
-      location: json['location'] as String,
+      location: location ?? 'null',
     );
   }
 }
 
-Future<List<Asset>> fetchAsset(String assetLoc) async {
+Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
   final url = '$staticAPI' + '$assetLoc' + '.json';
-  final response = await http.get(Uri.parse(url));
-  debugPrint('Grabbed Data: ' + response.body);
+  final response = await client.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Asset.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load json');
+  }
+}
 
+Future<List<Asset>> fetchAsset(http.Client client, String assetLoc) async {
+  final url = '$staticAPI' + '$assetLoc' + '.json';
+  final response = await client.get(Uri.parse(url));
   return compute(parseAsset, response.body);
 }
 
 List<Asset> parseAsset(String responseBody) {
-  debugPrint('Starting...');
+  debugPrint('Starting...' + '$responseBody');
   final parsed = jsonDecode(responseBody);
-  debugPrint("Parsing" + parsed);
+  debugPrint("Parsing" + parsed.toString());
   return parsed.map<Asset>((json) => Asset.fromJson(json)).toList();
 }
 
@@ -282,39 +298,37 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        builder: (ctx, snapshot) {
-          // Checking if future is resolved or not
-          if (snapshot.connectionState == ConnectionState.done) {
-            // If we got an error
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Errors: ' + '${snapshot.error} occurred',
-                  style: TextStyle(fontSize: 18),
-                ),
-              );
-
-              // if we got our data
-            } else if (snapshot.hasData) {
-              // Extracting data from snapshot object
-              final data = snapshot.data as Asset;
-              return Center(
-                child: Text(
-                  'Data: ' + (data.title as String),
-                  style: TextStyle(fontSize: 18),
-                ),
-              );
-            }
-          }
-
-          // Displaying LoadingSpinner to indicate waiting state
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-        future: fetchAsset(
+        future: fetchAssetData(
+          http.Client(),
           widget.asset,
         ),
+        builder: (ctx, snapshot) {
+          // Checking if future is resolved or not
+          // If we got an error
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Errors: ' + '${snapshot.error} occurred',
+                style: TextStyle(fontSize: 18),
+              ),
+            );
+
+            // if we got our data
+          } else if (snapshot.hasData) {
+            // Extracting data from snapshot object
+            final data = snapshot.data as Asset;
+
+            //return AssetLists(assets: snapshot.data!);
+            return Center(
+              child: Text(data.title),
+            );
+          } else {
+            // Displaying LoadingSpinner to indicate waiting state
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
@@ -323,3 +337,20 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
 ///
 ///
 ///
+///
+class AssetLists extends StatelessWidget {
+  final Asset assets;
+  const AssetLists({Key? key, required this.assets});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemBuilder: (context, index) {
+        return Text(assets.title);
+      },
+    );
+  }
+}
