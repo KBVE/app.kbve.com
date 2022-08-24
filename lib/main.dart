@@ -50,6 +50,8 @@ import 'package:admin/screens/profile/login.dart';
 //  Library:  (Self) -> Screen -> Asset Screen
 //  Purpose:  Building the Asset Screen for the application.
 import 'package:admin/screens/asset/asset.dart';
+import 'package:admin/screens/asset/assetdata.dart';
+
 //
 
 ///
@@ -132,7 +134,7 @@ class MyApp extends StatelessWidget {
                 builder: (_, __) {
                   //final asset = fetchAsset(__.params['id']!);
                   return VE(
-                      lovechild: AssetRender(
+                      lovechild: AssetData(
                     asset: __.params['id'],
                   ));
                 }),

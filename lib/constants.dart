@@ -36,7 +36,7 @@ const defaultPadding = 16.0;
 //  Constant: Static API
 //  Purpose:  Location of the static API for the application.
 //  Event:    v1 Migration <CurrentInstance> | Still working out the generation of the static API, we could use Lunr.js for the library.
-const staticAPI = 'https://a.kbve.com/assets/';
+const staticAPI = 'https://a.kbve.com/stocks/';
 
 //  Constant: REST API
 //  Purpose:  Location of the RESTFul API for the application.

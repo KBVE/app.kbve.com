@@ -101,12 +101,6 @@ import 'package:admin/screens/dashboard/components/header.dart';
 import 'package:admin/screens/main/components/side_menu.dart';
 
 ///
-///   Constant: API Location
-//?   Event: v1 Migration <Current Instance> : This variable will be moved over to the constants.
-///
-const apiLoc = 'https://a.kbve.com/stocks/';
-
-///
 //!   [IMPORT] -> [END]
 ///
 
@@ -130,13 +124,11 @@ class Asset {
   final String? exchange;
   final String? ticker;
   final String? location;
-  final Map<String, dynamic>? assetData;
 
   const Asset({
     this.title,
     this.exchange,
     this.ticker,
-    this.assetData,
     this.location,
   });
 
@@ -146,20 +138,22 @@ class Asset {
       ticker: json['ticker'] as String,
       title: json['title'] as String,
       location: json['location'] as String,
-      assetData: json,
     );
   }
 }
 
 Future<List<Asset>> fetchAsset(String assetLoc) async {
-  final response = await http.get(Uri.parse('$staticAPI$assetLoc.json'));
+  final url = '$staticAPI' + '$assetLoc' + '.json';
+  final response = await http.get(Uri.parse(url));
+  debugPrint('Grabbed Data: ' + response.body);
 
   return compute(parseAsset, response.body);
 }
 
 List<Asset> parseAsset(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
+  debugPrint('Starting...');
+  final parsed = jsonDecode(responseBody);
+  debugPrint("Parsing" + parsed);
   return parsed.map<Asset>((json) => Asset.fromJson(json)).toList();
 }
 
@@ -250,6 +244,9 @@ class _AssetContainer extends State<AssetContainer> {
                     children: [
                       // This is where we start to use the future builder.
                       Text({widget.asset}.toString()),
+                      FutureAssetBuilder(
+                        asset: widget.asset.toString(),
+                      ),
                     ],
                   ),
                 )
@@ -292,7 +289,7 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
             if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  '${snapshot.error} occurred',
+                  'Errors: ' + '${snapshot.error} occurred',
                   style: TextStyle(fontSize: 18),
                 ),
               );
@@ -300,10 +297,10 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
               // if we got our data
             } else if (snapshot.hasData) {
               // Extracting data from snapshot object
-              final data = snapshot.data as String;
+              final data = snapshot.data as Asset;
               return Center(
                 child: Text(
-                  '$data',
+                  'Data: ' + (data.title as String),
                   style: TextStyle(fontSize: 18),
                 ),
               );
