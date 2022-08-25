@@ -26,7 +26,15 @@ import 'dart:async';
 //*   Library: Dart - Converter
 ///   Purpose: Converting JSON <---> Map Objects.
 import 'dart:convert';
+
+///
+//*   Library: Dart - Developer
+///   Purpose: Help debug some of the issues with the CORS / Data fetching.
 import 'dart:developer';
+
+///
+//*   Library: JSON Helpers
+///   Purpose: Help convert some of the json data.
 import 'package:json_helpers/json_helpers.dart';
 
 ///
@@ -127,11 +135,6 @@ import 'package:admin/screens/main/components/side_menu.dart';
 ///   Ticker - TBD.
 ///   ISO - TBD.
 ///
-List<Asset> assetFromJson(String str) =>
-    List<Asset>.from(json.decode(str).map((x) => Asset.fromJson(x)));
-
-String assetToJson(List<Asset> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Asset {
   Asset({
@@ -141,6 +144,7 @@ class Asset {
     required this.ticker,
     required this.slug,
     required this.tag,
+    required this.img,
   });
 
   String title;
@@ -149,6 +153,7 @@ class Asset {
   String ticker;
   String slug;
   List<String>? tag;
+  String img;
 
   factory Asset.fromJson(Map<String, dynamic> json) => Asset(
         title: json["title"],
@@ -156,6 +161,7 @@ class Asset {
         exchange: json["exchange"],
         ticker: json["ticker"],
         slug: json["slug"],
+        img: json["img"],
         tag: List<String>.from(json["tag"].map((x) => x)),
       );
 
@@ -166,12 +172,13 @@ class Asset {
         "ticker": ticker,
         "slug": slug,
         "tag": List<dynamic>.from(tag!.map((x) => x)),
+        "img": img,
       };
 }
 
 Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
-  //final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json/';
-  final url = 'https://kbve.com/asset/aapl/data.json';
+  final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json/';
+  //final url = 'https://kbve.com/asset/aapl/data.json';
   /* final headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -200,11 +207,17 @@ Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
   }
 }
 
+List<Asset> assetFromJson(String str) =>
+    List<Asset>.from(json.decode(str).map((x) => Asset.fromJson(x)));
+
+String assetToJson(List<Asset> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 Future<List<Asset>> fetchAsset(http.Client client, String assetLoc) async {
   final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json';
   final response = await client.get(Uri.parse(url));
-  return assetFromJson(response.body);
-  //return compute(parseAsset, response.body);
+  //return assetFromJson(response.body);
+  return compute(assetFromJson, response.body);
 }
 
 List<Asset> parseAsset(String responseBody) {
@@ -212,6 +225,14 @@ List<Asset> parseAsset(String responseBody) {
   final parsed = jsonDecode(responseBody);
   debugPrint("Parsing" + parsed.toString());
   return parsed.map<Asset>((json) => Asset.fromJson(json)).toList();
+}
+
+dynamic getAssetMap(List<dynamic> assetList) {
+  List<Map<String, dynamic>> map = [];
+  assetList.forEach((element) {
+    map.add(element.toMap());
+  });
+  return map;
 }
 
 ///
@@ -301,6 +322,7 @@ class _AssetContainer extends State<AssetContainer> {
                     children: [
                       // This is where we start to use the future builder.
                       Text({widget.asset}.toString()),
+                      SizedBox(height: defaultPadding),
                       FutureAssetBuilder(
                         asset: widget.asset.toString(),
                       ),
@@ -373,22 +395,84 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
 
             // if we got our data
           } else if (snapshot.hasData) {
-            // Extracting data from snapshot object
+            /// Extracting data from snapshot object
             final data = snapshot.data as List<Asset>;
+            final datamap = data[0].toJson();
+            //! Definitely need to wrap exchange in a try / catch.
+            final title = datamap['title'] as String;
+            final exchange = datamap['exchange'] as String;
+            final bgImg = datamap['img'] as String;
 
             //return AssetLists(assets: snapshot.data!);
-            return Center(
-              child: Column(children: [
-                new Row(
-                  children:
-                      data.map((item) => new Text(item.exchange)).toList(),
-                ),
-                new Row(
-                  children: <Widget>[
-                    for (var item in data) Text(item.toJson().toString()),
-                  ],
-                )
-              ]),
+            return Container(
+              padding: EdgeInsets.all(defaultPadding),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(bgImg),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(width: 2, color: secondaryColor)),
+              // Start Container
+
+              child: Center(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(height: defaultPadding),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: data
+                            .map((item) => new Text(
+                                  item.exchange,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(color: Colors.white70),
+                                ))
+                            .toList(),
+                      ),
+                      SizedBox(height: defaultPadding),
+                      Container(
+                        padding: EdgeInsets.all(defaultPadding * 0.75),
+                        decoration: BoxDecoration(
+                          color: secondaryColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            for (var item in data)
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: Text(item.toJson().toString()),
+                              ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: defaultPadding),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                              child: Container(
+                            padding: EdgeInsets.all(defaultPadding * 0.75),
+                            decoration: BoxDecoration(
+                              color: secondaryColor,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: new Text(title),
+                          )),
+                        ],
+                      ),
+                      SizedBox(height: defaultPadding),
+                    ]),
+              ),
+
+              // End Container
             );
           } else {
             // Displaying LoadingSpinner to indicate waiting state
