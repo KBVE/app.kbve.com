@@ -34,21 +34,27 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 ///
-//*   Library: Flutter -> Material
-///   Purpose: Providing the inner core of the UI/UX for the application, as well as, the main aesthetics for the application front end design.
+//*   Library:  Flutter -> Material
+///   Purpose:  Providing the inner core of the UI/UX for the application, as well as, the main aesthetics for the application front end design.
 import 'package:flutter/material.dart';
 
 ///
-//*   Library: Provider
-///   Purpose: A wrapper for the widgets that will be handle the state / action management.
+//*   Library:  Provider
+///   Purpose:  A wrapper for the widgets that will be handle the state / action management.
 ///
 import 'package:provider/provider.dart';
 
 ///
-//*   Library: Dart HTTP
-///   Purpose: Pulling information from static and server APIs.
+//*   Library:  Dart HTTP
+///   Purpose:  Pulling information from static and server APIs.
 ///
 import 'package:http/http.dart' as http;
+
+///
+//*   Library:  Dart WebViexX
+///   Purpose:  Providing iframes for the applications.
+///
+import 'package:webviewx/webviewx.dart';
 
 ///
 //!   [IMPORT] -> [APP]
@@ -147,7 +153,7 @@ class Asset {
 }
 
 Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
-  final url = '$staticAPI' + '$assetLoc' + '.json';
+  final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json';
   final response = await client.get(Uri.parse(url));
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -294,6 +300,16 @@ class FutureAssetBuilder extends StatefulWidget {
 
 // Extension of AssetContainer
 class _FutureAssetBuilder extends State<FutureAssetBuilder> {
+  late WebViewXController webviewController;
+
+  Size get screenSize => MediaQuery.of(context).size;
+
+  @override
+  void dispose() {
+    webviewController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -320,7 +336,11 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
 
             //return AssetLists(assets: snapshot.data!);
             return Center(
-              child: Text(data.title),
+              child: Column(children: [
+                Text(data.title),
+                Text(data.exchange),
+                Text(data.ticker),
+              ]),
             );
           } else {
             // Displaying LoadingSpinner to indicate waiting state
