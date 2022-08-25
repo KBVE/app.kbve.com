@@ -36,6 +36,7 @@ dependencies:
   go_router: ^4.2.7
   http: ^0.13.5
   webviewx: ^0.2.1
+  json_helpers: ^0.1.5
   #fl_chart: ^0.36.1
   #provider: ^5.0.0
   #data_table_2: ^2.0.3

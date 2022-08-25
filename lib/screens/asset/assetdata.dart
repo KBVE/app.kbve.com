@@ -26,6 +26,8 @@ import 'dart:async';
 //*   Library: Dart - Converter
 ///   Purpose: Converting JSON <---> Map Objects.
 import 'dart:convert';
+import 'dart:developer';
+import 'package:json_helpers/json_helpers.dart';
 
 ///
 //*   Library: Flutter -> Foundation
@@ -125,36 +127,51 @@ import 'package:admin/screens/main/components/side_menu.dart';
 ///   Ticker - TBD.
 ///   ISO - TBD.
 ///
-class Asset {
-  final String name;
-  final String title;
-  final String exchange;
-  final String ticker;
-  final String? location;
+List<Asset> assetFromJson(String str) =>
+    List<Asset>.from(json.decode(str).map((x) => Asset.fromJson(x)));
 
-  const Asset({
-    required this.name,
+String assetToJson(List<Asset> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class Asset {
+  Asset({
     required this.title,
+    required this.description,
     required this.exchange,
     required this.ticker,
-    this.location,
+    required this.slug,
+    required this.tag,
   });
 
-  factory Asset.fromJson(Map<String, dynamic> json) {
-    final location = json['location'] as String?;
-    return Asset(
-      name: json['name'] as String,
-      exchange: json['exchange'] as String,
-      ticker: json['ticker'] as String,
-      title: json['title'] as String,
-      location: location ?? 'null',
-    );
-  }
+  String title;
+  String description;
+  String exchange;
+  String ticker;
+  String slug;
+  List<String>? tag;
+
+  factory Asset.fromJson(Map<String, dynamic> json) => Asset(
+        title: json["title"],
+        description: json["description"],
+        exchange: json["exchange"],
+        ticker: json["ticker"],
+        slug: json["slug"],
+        tag: List<String>.from(json["tag"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "title": title,
+        "description": description,
+        "exchange": exchange,
+        "ticker": ticker,
+        "slug": slug,
+        "tag": List<dynamic>.from(tag!.map((x) => x)),
+      };
 }
 
 Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
   //final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json/';
-  final url = 'https://a.kbve.com/stocks/aapl.json';
+  final url = 'https://kbve.com/asset/aapl/data.json';
   /* final headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -168,7 +185,14 @@ Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Asset.fromJson(jsonDecode(response.body));
+
+    var xr = json.decode(response.body);
+    //final personMap = xr.jsonMap((e) => Asset.toJson(e));
+
+    //final Map<String, dynamic> xxr = Map.castFrom(json.decode(response.body));
+
+    return Asset.fromJson(xr);
+    //return Asset.fromJson((jsonDecode(response.body) as Map<String, dynamic>));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -177,9 +201,10 @@ Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
 }
 
 Future<List<Asset>> fetchAsset(http.Client client, String assetLoc) async {
-  final url = '$staticAPI' + '$assetLoc' + '.json';
+  final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json';
   final response = await client.get(Uri.parse(url));
-  return compute(parseAsset, response.body);
+  return assetFromJson(response.body);
+  //return compute(parseAsset, response.body);
 }
 
 List<Asset> parseAsset(String responseBody) {
@@ -311,7 +336,11 @@ class FutureAssetBuilder extends StatefulWidget {
 // Extension of AssetContainer
 class _FutureAssetBuilder extends State<FutureAssetBuilder> {
   late WebViewXController webviewController;
-
+  Future? _future;
+  Future<List<Asset>> loadList() async => await fetchAsset(
+        http.Client(),
+        widget.asset,
+      );
   Size get screenSize => MediaQuery.of(context).size;
 
   @override
@@ -321,14 +350,17 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
   }
 
   @override
+  void initState() {
+    _future = loadList();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        future: fetchAssetData(
-          http.Client(),
-          widget.asset,
-        ),
-        builder: (ctx, snapshot) {
+        future: _future,
+        builder: (ctx, AsyncSnapshot snapshot) {
           // Checking if future is resolved or not
           // If we got an error
           if (snapshot.hasError) {
@@ -342,14 +374,20 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
             // if we got our data
           } else if (snapshot.hasData) {
             // Extracting data from snapshot object
-            final data = snapshot.data as Asset;
+            final data = snapshot.data as List<Asset>;
 
             //return AssetLists(assets: snapshot.data!);
             return Center(
               child: Column(children: [
-                Text(data.title),
-                Text(data.exchange),
-                Text(data.ticker),
+                new Row(
+                  children:
+                      data.map((item) => new Text(item.exchange)).toList(),
+                ),
+                new Row(
+                  children: <Widget>[
+                    for (var item in data) Text(item.toJson().toString()),
+                  ],
+                )
               ]),
             );
           } else {
