@@ -153,11 +153,18 @@ class Asset {
 }
 
 Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
-  final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json/';
-  final headers = {"Content-Type": "application/json"};
+  //final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json/';
+  final url = 'https://a.kbve.com/stocks/aapl.json';
+  /* final headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, HEAD, OPTIONS",
+    "Access-Control-Allow-Credentials": "true"
+  };
   final response = await client.get(Uri.parse(url), headers: headers);
-  if (response.isRedirect) {}
-
+  //if (response.isRedirect) {}
+*/
+  final response = await http.get(Uri.parse(url));
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
