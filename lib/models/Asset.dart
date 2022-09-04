@@ -60,7 +60,7 @@ class Asset {
 }
 
 Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
-  final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json/';
+  final url = '$staticAPI' + 'asset/stock/' + '$assetLoc' + '/data.json/';
   //final url = 'https://kbve.com/asset/aapl/data.json';
   /* final headers = {
     "Content-Type": "application/json",

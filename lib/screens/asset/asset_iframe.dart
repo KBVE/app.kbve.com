@@ -16,8 +16,7 @@ class WebViewXChart extends StatefulWidget {
 class _WebViewXChartState extends State<WebViewXChart> {
   late WebViewXController webviewController;
 
-  var iframeURL = widget.url;
-  final initialContent = widget.url;
+  final initialContent = '';
   final executeJsErrorMessage =
       'Failed to execute this task because the current content is (probably) URL that allows iframe embedding, on Web.\n\n'
       'A short reason for this is that, when a normal URL is embedded in the iframe, you do not actually own that content so you cant call your custom functions\n'
