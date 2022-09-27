@@ -60,7 +60,7 @@ class Asset {
 }
 
 Future<Asset> fetchAssetData(http.Client client, String assetLoc) async {
-  final url = '$staticAPI' + 'asset/stock/' + '$assetLoc' + '/data.json/';
+  final url = '$staticAPI' + 'asset/stock/' + '$assetLoc' + '/data.json';
   //final url = 'https://kbve.com/asset/aapl/data.json';
   /* final headers = {
     "Content-Type": "application/json",
@@ -97,7 +97,7 @@ String assetToJson(List<Asset> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 Future<List<Asset>> fetchAsset(http.Client client, String assetLoc) async {
-  final url = '$staticAPI' + 'asset/' + '$assetLoc' + '/data.json';
+  final url = '$staticAPI' + 'asset/stock/' + '$assetLoc' + '/data.json';
   final response = await client.get(Uri.parse(url));
   //return assetFromJson(response.body);
   return compute(assetFromJson, response.body);

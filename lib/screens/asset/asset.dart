@@ -72,7 +72,7 @@ import 'package:admin/screens/main/components/side_menu.dart';
 
 //  Constant: API Location
 //  Event: v1 Migration <Current Instance> : This variable will be moved over to the constants.
-const apiLoc = 'https://a.kbve.com/stocks/';
+const apiLoc = 'https://kbve.com/asset/stocks/';
 
 // Default Asset Structures and Classes
 
