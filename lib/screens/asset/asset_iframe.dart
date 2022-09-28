@@ -14,8 +14,9 @@ class WebViewXChart extends StatefulWidget {
 }
 
 class _WebViewXChartState extends State<WebViewXChart> {
-  late WebViewXController webviewController;
+  late WebViewXController? webviewController;
 
+  final controller = ScrollController();
   final initialContent = '';
   final executeJsErrorMessage =
       'Failed to execute this task because the current content is (probably) URL that allows iframe embedding, on Web.\n\n'
@@ -26,7 +27,7 @@ class _WebViewXChartState extends State<WebViewXChart> {
 
   @override
   void dispose() {
-    webviewController.dispose();
+    webviewController!.dispose();
     super.dispose();
   }
 
@@ -54,12 +55,16 @@ class _WebViewXChartState extends State<WebViewXChart> {
           ),
           Container(
             child: Scrollbar(
+              controller: controller,
               thumbVisibility: true,
               child: SizedBox(
                 width: min(screenSize.width * 0.8, 512),
                 child: ListView(
                   children: _buildButtons(),
                   shrinkWrap: true,
+                  // Scrollbar Error #1
+                  scrollDirection: Axis.vertical,
+                  controller: controller,
                 ),
               ),
             ),
@@ -112,28 +117,28 @@ class _WebViewXChartState extends State<WebViewXChart> {
   }
 
   void _setUrl() {
-    webviewController.loadContent(
+    webviewController!.loadContent(
       'https://kbve.com',
       SourceType.url,
     );
   }
 
   void _setUrlBypass() {
-    webviewController.loadContent(
+    webviewController!.loadContent(
       'https://news.ycombinator.com/',
       SourceType.urlBypass,
     );
   }
 
   void _setHtml() {
-    webviewController.loadContent(
+    webviewController!.loadContent(
       initialContent,
       SourceType.html,
     );
   }
 
   void _setHtmlFromAssets() {
-    webviewController.loadContent(
+    webviewController!.loadContent(
       'assets/test.html',
       SourceType.html,
       fromAssets: true,
@@ -141,8 +146,8 @@ class _WebViewXChartState extends State<WebViewXChart> {
   }
 
   Future<void> _goForward() async {
-    if (await webviewController.canGoForward()) {
-      await webviewController.goForward();
+    if (await webviewController!.canGoForward()) {
+      await webviewController!.goForward();
       showSnackBar('Did go forward', context);
     } else {
       showSnackBar('Cannot go forward', context);
@@ -150,8 +155,8 @@ class _WebViewXChartState extends State<WebViewXChart> {
   }
 
   Future<void> _goBack() async {
-    if (await webviewController.canGoBack()) {
-      await webviewController.goBack();
+    if (await webviewController!.canGoBack()) {
+      await webviewController!.goBack();
       showSnackBar('Did go back', context);
     } else {
       showSnackBar('Cannot go back', context);
@@ -159,18 +164,18 @@ class _WebViewXChartState extends State<WebViewXChart> {
   }
 
   void _reload() {
-    webviewController.reload();
+    webviewController!.reload();
   }
 
   void _toggleIgnore() {
-    final ignoring = webviewController.ignoresAllGestures;
-    webviewController.setIgnoreAllGestures(!ignoring);
+    final ignoring = webviewController!.ignoresAllGestures;
+    webviewController!.setIgnoreAllGestures(!ignoring);
     showSnackBar('Ignore events = ${!ignoring}', context);
   }
 
   Future<void> _evalRawJsInGlobalContext() async {
     try {
-      final result = await webviewController.evalRawJavascript(
+      final result = await webviewController!.evalRawJavascript(
         '2+2',
         inGlobalContext: true,
       );
@@ -185,7 +190,8 @@ class _WebViewXChartState extends State<WebViewXChart> {
 
   Future<void> _callPlatformIndependentJsMethod() async {
     try {
-      await webviewController.callJsMethod('testPlatformIndependentMethod', []);
+      await webviewController!
+          .callJsMethod('testPlatformIndependentMethod', []);
     } catch (e) {
       showAlertDialog(
         executeJsErrorMessage,
@@ -196,7 +202,7 @@ class _WebViewXChartState extends State<WebViewXChart> {
 
   Future<void> _callPlatformSpecificJsMethod() async {
     try {
-      await webviewController
+      await webviewController!
           .callJsMethod('testPlatformSpecificMethod', ['Hi']);
     } catch (e) {
       showAlertDialog(
@@ -208,7 +214,7 @@ class _WebViewXChartState extends State<WebViewXChart> {
 
   Future<void> _getWebviewContent() async {
     try {
-      final content = await webviewController.getContent();
+      final content = await webviewController!.getContent();
       showAlertDialog(content.source, context);
     } catch (e) {
       showAlertDialog('Failed to execute this task.', context);

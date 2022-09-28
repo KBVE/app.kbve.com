@@ -160,6 +160,8 @@ class AssetData extends StatefulWidget {
 /// Further Extension of the State
 ///
 class _AssetData extends State<AssetData> {
+  var controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     // Construct the <Scaffold> for the AssetScreen
