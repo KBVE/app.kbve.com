@@ -1,5 +1,5 @@
 name: Abstract Bug report
-about: Create a bug report for the App
+description: Create a bug report for the App
 title: '[Abstract][Bug]: '
 labels: 1, bug
 body:
