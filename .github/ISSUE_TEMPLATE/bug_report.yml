@@ -1,6 +1,5 @@
----
 name: Abstract Bug report
-about: Create a bug report for the App
+describe: Create a bug report for the App
 title: '[Abstract][Bug]: '
 labels: 1, bug
 assignees: ''
@@ -50,11 +49,4 @@ body:
       label: Relevant log output
       description: If applicable, provide relevant log output. No need for backticks here.
       render: shell
----
 
-* * *
-
-**Additional context**
-Add any other context about the problem here.
-
-* * *
