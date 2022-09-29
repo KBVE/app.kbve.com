@@ -61,13 +61,6 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 ///
-//*   Library:  Dart WebViexX
-///   Purpose:  Providing iframes for the applications.
-///
-import 'package:webviewx/webviewx.dart';
-import 'package:admin/util/webview_page.dart';
-
-///
 //!   [IMPORT] -> [APP]
 ///
 
@@ -148,10 +141,11 @@ import 'package:admin/models/Asset.dart';
 //?   ?CONCERN: Too much data / CPU usage upon load* - Will need to offset the widgets.
 ///
 class AssetData extends StatefulWidget {
-  final String? asset;
+  final String? assetClass;
+  final String? assetName;
   // Children {Widget} -> Widgets that we would pass.
   // Asset {String} -> The Asset Entity name.
-  AssetData({Key? key, this.asset}) : super(key: key);
+  AssetData({Key? key, this.assetClass, this.assetName}) : super(key: key);
 
   @override
   _AssetData createState() => _AssetData();
@@ -181,7 +175,8 @@ class _AssetData extends State<AssetData> {
             Expanded(
               // Remaining 5/6 of the screen for the containers.
               flex: 5,
-              child: AssetContainer(asset: widget.asset),
+              child: AssetContainer(
+                  assetClass: widget.assetClass, assetName: widget.assetName),
             ),
           ],
         ),
@@ -197,8 +192,10 @@ class _AssetData extends State<AssetData> {
 ///
 class AssetContainer extends StatefulWidget {
   //final Asset? asset;
-  final String? asset;
-  AssetContainer({Key? key, required this.asset}) : super(key: key);
+  final String? assetName;
+  final String? assetClass;
+  AssetContainer({Key? key, required this.assetClass, this.assetName})
+      : super(key: key);
 
   @override
   _AssetContainer createState() => _AssetContainer();
@@ -226,10 +223,11 @@ class _AssetContainer extends State<AssetContainer> {
                   child: Column(
                     children: [
                       // This is where we start to use the future builder.
-                      Text({widget.asset}.toString()),
+                      Text({widget.assetName}.toString()),
                       SizedBox(height: defaultPadding),
                       FutureAssetBuilder(
-                        asset: widget.asset.toString(),
+                        assetClass: widget.assetClass.toString(),
+                        assetName: widget.assetName.toString(),
                       ),
                     ],
                   ),
@@ -253,8 +251,11 @@ class _AssetContainer extends State<AssetContainer> {
 ///
 class FutureAssetBuilder extends StatefulWidget {
   //final Asset? asset;
-  final String asset;
-  FutureAssetBuilder({Key? key, required this.asset}) : super(key: key);
+  final String assetClass;
+  final String assetName;
+  FutureAssetBuilder(
+      {Key? key, required this.assetClass, required this.assetName})
+      : super(key: key);
 
   @override
   _FutureAssetBuilder createState() => _FutureAssetBuilder();
@@ -265,7 +266,8 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
   Future? _future;
   Future<List<Asset>> loadList() async => await fetchAsset(
         http.Client(),
-        widget.asset,
+        widget.assetClass,
+        widget.assetName,
       );
   Size get screenSize => MediaQuery.of(context).size;
 
@@ -367,9 +369,9 @@ class _FutureAssetBuilder extends State<FutureAssetBuilder> {
                         ],
                       ),
                       SizedBox(height: defaultPadding * 2),
-                      Container(
-                        child: WebViewXPage(),
-                      )
+                      //  Container(
+                      //     child: WebViewXPage(),
+                      //   )
                     ]),
               ),
 

@@ -124,21 +124,59 @@ class MyApp extends StatelessWidget {
         ),
       ),
       //
-      // Asset<path> -> Returns {VE} -> ()
+      // Asset<path> -> Asset<id> -> Returns {VE} -> ()
+      // GoRoute(
+      //     path: '/asset',
+      //     builder: (_, __) => VE(lovechild: AssetScreen()),
+      //     routes: [
+      //       GoRoute(
+      //           path: ':id',
+      //           builder: (_, __) {
+      //             //final asset = fetchAsset(__.params['id']!);
+      //             return VE(
+      //                 lovechild: AssetData(
+      //               assetClass: 'stock',
+      //               assetName: __.params['id'],
+      //             ));
+      //           }),
+      //     ]),
+      // Asset<path> -> Asset<Class> -> Asset<Name> -> Returns {VE} -> ()
       GoRoute(
-          path: '/asset',
-          builder: (_, __) => VE(lovechild: AssetScreen()),
-          routes: [
-            GoRoute(
-                path: ':id',
-                builder: (_, __) {
-                  //final asset = fetchAsset(__.params['id']!);
-                  return VE(
-                      lovechild: AssetData(
-                    asset: __.params['id'],
-                  ));
-                }),
-          ]),
+        path: '/asset',
+        builder: (_, __) => VE(lovechild: AssetScreen()),
+        routes: [
+          GoRoute(
+              path: 'stock',
+              builder: (_, __) => VE(lovechild: LoginScreen()),
+              routes: [
+                GoRoute(
+                    path: ':assetName',
+                    builder: (_, __) {
+                      //final asset = fetchAsset(__.params['id']!);
+                      return VE(
+                          lovechild: AssetData(
+                        assetClass: 'stock',
+                        assetName: __.params['assetName'],
+                      ));
+                    }),
+              ]),
+          GoRoute(
+              path: 'crypto',
+              builder: (_, __) => VE(lovechild: LoginScreen()),
+              routes: [
+                GoRoute(
+                    path: ':assetName',
+                    builder: (_, __) {
+                      //final asset = fetchAsset(__.params['id']!);
+                      return VE(
+                          lovechild: AssetData(
+                        assetClass: 'crypto',
+                        assetName: __.params['assetName'],
+                      ));
+                    }),
+              ])
+        ],
+      ),
       //
       //  !{ROUTES} -> [CORE] -> [END]
       //
@@ -146,6 +184,8 @@ class MyApp extends StatelessWidget {
       //
       //  ?CONCERN: HUMAN ERROR - Extra (s) in the trailing URL
       //  Defining common 404 errors and setting up the right redirects.
+      //  When migrating go_router 5.0 , we will have to pass a new parameter, BuildContext
+      //
       GoRoute(
         path: '/assets',
         redirect: (_) => '/asset',
