@@ -1,2 +1,0 @@
-# kbve.com
-KBVE
