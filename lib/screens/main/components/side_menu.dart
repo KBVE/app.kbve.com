@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Go Router
-import 'package:go_router/go_router.dart';
+import 'package:qlevar_router/qlevar_router.dart'; // Purpose: Replace go_router
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -21,63 +21,63 @@ class SideMenu extends StatelessWidget {
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashboard.svg",
             press: () {
-              GoRouter.of(context).go('/');
+              QR.to('/');
             },
           ),
           DrawerListTile(
             title: "Asset",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {
-              GoRouter.of(context).go('/asset');
+              QR.to('/asset');
             },
           ),
           DrawerListTile(
             title: "Task",
             svgSrc: "assets/icons/menu_task.svg",
             press: () {
-              GoRouter.of(context).go('/task');
+              QR.to('/task');
             },
           ),
           DrawerListTile(
             title: "Documents",
             svgSrc: "assets/icons/menu_doc.svg",
             press: () {
-              GoRouter.of(context).go('/note');
+              QR.to('/note');
             },
           ),
           DrawerListTile(
             title: "Store",
             svgSrc: "assets/icons/menu_store.svg",
             press: () {
-              GoRouter.of(context).go('/store');
+              QR.to('/store');
             },
           ),
           DrawerListTile(
             title: "Notification",
             svgSrc: "assets/icons/menu_notification.svg",
-            press: () {},
+            press: () {
+              QR.to('/account/profile');
+            },
           ),
           DrawerListTile(
             title: "Profile",
             svgSrc: "assets/icons/menu_profile.svg",
             press: () {
-              GoRouter.of(context).go('/login');
+              QR.to('/account/profile');
             },
           ),
           DrawerListTile(
             title: "Settings",
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {
-              GoRouter.of(context).go('/setting');
+              QR.to('/account/setting');
             },
           ),
           DrawerListTile(
-            // Charts Button
             title: "Charts",
-            // Change the svgSrc later on.
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {
-              GoRouter.of(context).go('/charts');
+              QR.to('/charts');
             },
           ),
         ],

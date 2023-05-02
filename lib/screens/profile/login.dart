@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: AppBar(title: Text('KBVE Login')),
-      key: context.read<MenuController>().scaffoldKey,
+      key: context.read<CustomMenuController>().scaffoldKey,
       drawer: SideMenu(),
       body: SafeArea(
         child: Row(
@@ -81,6 +81,39 @@ class __LoginScreen extends StatelessWidget {
     );
   }
 }
+
+
+class RegisterDetails extends StatelessWidget {
+  const RegisterDetails({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(defaultPadding),
+      decoration: BoxDecoration(
+        color: secondaryColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Register Details",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: defaultPadding),
+        ],
+      ),
+    );
+  }
+}
+
+
 
 class LoginDetails extends StatelessWidget {
   const LoginDetails({

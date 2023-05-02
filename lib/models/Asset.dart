@@ -1,24 +1,12 @@
-///
-//*   Library:  Dart HTTP
-///   Purpose:  Pulling information from static and server APIs.
-///
+//*       [ASSET] : Model
+//*       [IMPORT]
 import 'package:http/http.dart' as http;
-
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
+import 'package:deep_pick/deep_pick.dart';
+//*       [@lib]
+import 'package:admin/constants.dart'; //*   Purpose: Storing constant variables throughout the application.
 
-///
-//*   Library: (Self) -> Constants
-///   Purpose: Storing constant variables throughout the application.
-import 'package:admin/constants.dart';
-
-//*   <Asset> Class/Object that will have to be rebuilt in v2.
-///   Title - Asset's Entity Name ? Legal D/B/A
-///   Exchange - Asset's Exchange - Where the asset is traded / liquidated.
-///   Ticker - TBD.
-///   ISO - TBD.
-///
 class Asset {
   Asset({
     required this.title,
@@ -26,7 +14,7 @@ class Asset {
     required this.exchange,
     required this.ticker,
     required this.slug,
-    required this.tag,
+    required this.tags,
     required this.img,
   });
 
@@ -35,7 +23,7 @@ class Asset {
   String exchange;
   String ticker;
   String slug;
-  List<String>? tag;
+  List<String>? tags;
   String img;
 
   factory Asset.fromJson(Map<String, dynamic> json) => Asset(
@@ -45,7 +33,7 @@ class Asset {
         ticker: json["ticker"],
         slug: json["slug"],
         img: json["img"],
-        tag: List<String>.from(json["tag"].map((x) => x)),
+        tags: List<String>.from(json["tags"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,50 +42,24 @@ class Asset {
         "exchange": exchange,
         "ticker": ticker,
         "slug": slug,
-        "tag": List<dynamic>.from(tag!.map((x) => x)),
+        "tags": List<dynamic>.from(tags!.map((x) => x)),
         "img": img,
       };
 }
 
 Future<Asset> fetchAssetData(
-
     // Currently using fetchAsset and not fetchAssetData
-
     http.Client client,
     String assetClass,
     String assetName) async {
-  final url = '$staticAPI' +
-      'asset/' +
-      '$assetClass' +
-      '/' +
-      '$assetName' +
-      '/data.json';
+  final url = 'https://kbve.com/asset/$assetClass/$assetName.json';
 
-  //final url = 'https://kbve.com/asset/aapl/data.json';
-  /* final headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, HEAD, OPTIONS",
-    "Access-Control-Allow-Credentials": "true"
-  };
-  final response = await client.get(Uri.parse(url), headers: headers);
-  //if (response.isRedirect) {}
-*/
   final response = await http.get(Uri.parse(url));
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-
     var xr = json.decode(response.body);
-    //final personMap = xr.jsonMap((e) => Asset.toJson(e));
-
-    //final Map<String, dynamic> xxr = Map.castFrom(json.decode(response.body));
 
     return Asset.fromJson(xr);
-    //return Asset.fromJson((jsonDecode(response.body) as Map<String, dynamic>));
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
     throw Exception('Failed to load json');
   }
 }
@@ -110,15 +72,9 @@ String assetToJson(List<Asset> data) =>
 
 Future<List<Asset>> fetchAsset(
     http.Client client, String assetClass, String assetName) async {
-  // URL where the asset's data.json would be located.
-  final url = '$staticAPI' +
-      'asset/' +
-      '$assetClass' +
-      '/' +
-      '$assetName' +
-      '/data.json';
+  final url = 'https://kbve.com/asset/$assetClass/$assetName.json';
   final response = await client.get(Uri.parse(url));
-  //return assetFromJson(response.body);
+  //return (parseAsset(response.body));
   return compute(assetFromJson, response.body);
 }
 

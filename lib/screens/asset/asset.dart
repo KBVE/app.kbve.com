@@ -138,7 +138,7 @@ class _AssetRender extends State<AssetRender> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: context.read<MenuController>().scaffoldKey,
+      key: context.read<CustomMenuController>().scaffoldKey,
       drawer: SideMenu(),
       body: SafeArea(
         child: Row(
@@ -215,7 +215,7 @@ class AssetScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: AppBar(title: Text('KBVE Asset')),
-      key: context.read<MenuController>().scaffoldKey,
+      key: context.read<CustomMenuController>().scaffoldKey,
       drawer: SideMenu(),
       body: SafeArea(
         child: Row(

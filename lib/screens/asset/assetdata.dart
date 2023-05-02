@@ -110,6 +110,10 @@ import 'package:admin/screens/dashboard/components/header.dart';
 ///
 import 'package:admin/screens/main/components/side_menu.dart';
 
+import 'dart:developer' as developer;
+///
+///
+///
 ///
 //!   [IMPORT] -> [END]
 ///
@@ -160,7 +164,7 @@ class _AssetData extends State<AssetData> {
   Widget build(BuildContext context) {
     // Construct the <Scaffold> for the AssetScreen
     return Scaffold(
-      key: context.read<MenuController>().scaffoldKey,
+      key: context.read<CustomMenuController>().scaffoldKey,
       drawer: SideMenu(),
       body: SafeArea(
         child: Row(
@@ -244,15 +248,20 @@ class _AssetContainer extends State<AssetContainer> {
 ///
 ///
 
+
+
+
 ///
 ///
 //*   Library:  AssetBuilder <Class> extends widgets for the asset's data.
 ///   Purpose:  Display all the asset information for the app.
 ///
+///
 class FutureAssetBuilder extends StatefulWidget {
   //final Asset? asset;
   final String assetClass;
   final String assetName;
+  
   FutureAssetBuilder(
       {Key? key, required this.assetClass, required this.assetName})
       : super(key: key);
