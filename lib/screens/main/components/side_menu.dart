@@ -77,7 +77,7 @@ class SideMenu extends StatelessWidget {
             title: "Charts",
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {
-              QR.to('/charts');
+              QR.to('/asset/stock/tsla');
             },
           ),
         ],

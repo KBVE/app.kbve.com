@@ -4,6 +4,7 @@ import 'package:isar/isar.dart';
 import 'package:admin/entities/asset.dart';
 import 'package:admin/entities/stock.dart';
 import 'package:admin/entities/tag.dart';
+import 'package:path_provider/path_provider.dart';
 
 class IsarService {
   late Future<Isar> db;
@@ -63,8 +64,9 @@ class IsarService {
 
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
+      final appStorage = await getApplicationDocumentsDirectory();
       return await Isar.open([AssetSchema, StockSchema, TagSchema],
-          inspector: true, directory: '');
+          inspector: true, directory: appStorage.path);
     }
 
     return Future.value(Isar.getInstance());
