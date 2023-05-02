@@ -46,6 +46,16 @@ class IsarService {
     return await isar.tags.where().findAll();
   }
 
+  Future<Stock?> getStockFor(String slug) async {
+    final isar = await db;
+
+    final stock = await isar.stocks.filter().slugEqualTo(slug).findFirst();
+
+    return stock;
+  }
+
+//*       [UTIL]
+
   Future<void> cleanDb() async {
     final isar = await db;
     await isar.writeTxn(() => isar.clear());
@@ -54,7 +64,7 @@ class IsarService {
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open([AssetSchema, StockSchema, TagSchema],
-          inspector: false, directory: '');
+          inspector: true, directory: '');
     }
 
     return Future.value(Isar.getInstance());

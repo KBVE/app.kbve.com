@@ -2,8 +2,8 @@
 //  Library: Main Dart
 //  Purpose: Nerves System and Brain off the application.
 //*  [IMPORT]
-import 'package:isar/isar.dart';
 import 'package:admin/isar_service.dart';
+import 'package:admin/utils/stock_isolate.dart';
 import 'package:admin/screens/dashboard/components/entry_builder.dart';
 import 'package:admin/screens/dashboard/components/header.dart';
 import 'package:admin/screens/dashboard/dashboard_screen.dart';
@@ -76,9 +76,10 @@ class AppRoutes {
               pageType: const QMaterialPage(),
               builder: () => VE(
                   d: VS(
-                      iso: EntryBuilder(
-                          assetClass: "stock",
-                          assetName: QR.params['name'].toString()))),
+                      iso: StockIsolate(
+                stock: QR.params['name'].toString(),
+                service: IsarService(),
+              ))),
               children: [
                 QRoute(
                   path: '/info',
