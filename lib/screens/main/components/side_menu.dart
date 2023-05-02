@@ -105,6 +105,7 @@ class DrawerListTile extends StatelessWidget {
       horizontalTitleGap: 0.0,
       leading: SvgPicture.asset(
         svgSrc,
+        // ignore: deprecated_member_use
         color: Colors.white54,
         height: 16,
       ),

@@ -37,6 +37,7 @@ class FileInfoCard extends StatelessWidget {
                 ),
                 child: SvgPicture.asset(
                   info.svgSrc!,
+                  // ignore: deprecated_member_use
                   color: info.color,
                 ),
               ),
@@ -59,14 +60,14 @@ class FileInfoCard extends StatelessWidget {
                 "${info.numOfFiles} Files",
                 style: Theme.of(context)
                     .textTheme
-                    .caption!
+                    .bodySmall!
                     .copyWith(color: Colors.white70),
               ),
               Text(
                 info.totalStorage!,
                 style: Theme.of(context)
                     .textTheme
-                    .caption!
+                    .bodySmall!
                     .copyWith(color: Colors.white),
               ),
             ],
