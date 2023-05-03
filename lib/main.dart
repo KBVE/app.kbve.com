@@ -46,6 +46,7 @@ class VirtualEngine extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
+      restorationScopeId: 'app',
     );
   }
 }

@@ -32,10 +32,10 @@ class SideMenu extends StatelessWidget {
             },
           ),
           DrawerListTile(
-            title: "Task",
+            title: "Tools",
             svgSrc: "assets/icons/menu_task.svg",
             press: () {
-              QR.to('/task');
+              QR.to('/tools');
             },
           ),
           DrawerListTile(
@@ -53,17 +53,17 @@ class SideMenu extends StatelessWidget {
             },
           ),
           DrawerListTile(
-            title: "Notification",
+            title: "Login",
             svgSrc: "assets/icons/menu_notification.svg",
             press: () {
-              QR.to('/account/profile');
+              QR.to('/login');
             },
           ),
           DrawerListTile(
-            title: "Profile",
+            title: "Account",
             svgSrc: "assets/icons/menu_profile.svg",
             press: () {
-              QR.to('/account/profile');
+              QR.to('/account');
             },
           ),
           DrawerListTile(
