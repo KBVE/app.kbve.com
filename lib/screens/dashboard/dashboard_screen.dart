@@ -1,11 +1,11 @@
+//*     [IMPORT]
+import 'package:flutter/material.dart';
+//*     [LIB]
+import 'package:admin/constants.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/screens/dashboard/components/my_fields.dart';
-import 'package:flutter/material.dart';
-
-import '../../constants.dart';
-
-import 'components/recent_files.dart';
-import 'components/storage_details.dart';
+import 'package:admin/screens/dashboard/components/recent_files.dart';
+import 'package:admin/screens/dashboard/components/storage_details.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({

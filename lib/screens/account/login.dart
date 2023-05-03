@@ -1,9 +1,10 @@
-import 'package:admin/controllers/MenuController.dart';
-import 'package:admin/responsive.dart';
+//*     [IMPORT]
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../dashboard/components/header.dart';
+//*     [LIB]
+import 'package:admin/controllers/MenuController.dart';
+import 'package:admin/responsive.dart';
+import 'package:admin/screens/dashboard/components/header.dart';
 
 import '../../constants.dart';
 import '../main/components/side_menu.dart';
@@ -82,7 +83,6 @@ class __LoginScreen extends StatelessWidget {
   }
 }
 
-
 class RegisterDetails extends StatelessWidget {
   const RegisterDetails({
     Key? key,
@@ -112,8 +112,6 @@ class RegisterDetails extends StatelessWidget {
     );
   }
 }
-
-
 
 class LoginDetails extends StatelessWidget {
   const LoginDetails({

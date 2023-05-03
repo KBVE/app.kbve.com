@@ -7,6 +7,7 @@ import 'package:admin/utils/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'; //  Library: Flutter -> Material Purpose:  Providing the inner core of the UI/UX for the application, as well as, the main aesthetics for the application front end design.
 import 'package:flutter/services.dart'; //  Library: Flutter -> Services
+import 'package:hive_flutter/hive_flutter.dart';
 //*  [IMPORT] -> [Pub.dev]
 import 'package:google_fonts/google_fonts.dart'; //  Library: Google -> Fonts Purpose: Providing the font files for the application.
 import 'package:provider/provider.dart'; //  Purpose: A wrapper for the widgets that will be handle the state / action management.
@@ -15,11 +16,9 @@ import 'package:qlevar_router/qlevar_router.dart'; // Purpose: Replace go_router
 import 'package:admin/screens/dashboard/components/header.dart';
 import 'package:admin/constants.dart'; //  Purpose: Storing constant variables throughout the application.
 import 'package:admin/controllers/MenuController.dart'; //  Purpose:  Handling the menu / drawer for the application.
-import 'package:admin/screens/profile/login.dart'; //  Purpose:  Building the Login Screen
 import 'package:admin/screens/main/not_found_screen.dart';
 import 'package:admin/screens/main/components/side_menu.dart';
 import 'package:admin/responsive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 //! [FUNDAMENTAL]   Main (void)(f) runs app.
 
@@ -39,7 +38,7 @@ class VirtualEngine extends StatelessWidget {
     final appRoutes = AppRoutes();
     appRoutes.setup();
     return MaterialApp.router(
-      routerDelegate: QRouterDelegate(appRoutes.route, initPath: '/'),
+      routerDelegate: QRouterDelegate(appRoutes.route),
       routeInformationParser: QRouteInformationParser(),
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
