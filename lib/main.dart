@@ -3,6 +3,7 @@
 //  Purpose: Nerves System and Brain off the application.
 //*  [IMPORT]
 import 'dart:io';
+import 'package:admin/utils/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'; //  Library: Flutter -> Material Purpose:  Providing the inner core of the UI/UX for the application, as well as, the main aesthetics for the application front end design.
 import 'package:flutter/services.dart'; //  Library: Flutter -> Services
@@ -11,9 +12,7 @@ import 'package:google_fonts/google_fonts.dart'; //  Library: Google -> Fonts Pu
 import 'package:provider/provider.dart'; //  Purpose: A wrapper for the widgets that will be handle the state / action management.
 import 'package:qlevar_router/qlevar_router.dart'; // Purpose: Replace go_router
 //*   [IMPORT]  -> [App]:[LIB]
-import 'package:admin/utils/stock_isolate.dart';
 import 'package:admin/screens/dashboard/components/header.dart';
-import 'package:admin/screens/dashboard/dashboard_screen.dart';
 import 'package:admin/constants.dart'; //  Purpose: Storing constant variables throughout the application.
 import 'package:admin/controllers/MenuController.dart'; //  Purpose:  Handling the menu / drawer for the application.
 import 'package:admin/screens/profile/login.dart'; //  Purpose:  Building the Login Screen
@@ -33,72 +32,14 @@ void main() {
   runApp(VirtualEngine());
 }
 
-class AppRoutes {
-  final route = [
-    QR.settings.notFoundPage = QRoute(
-        path: '/404',
-        pageType: const QFadePage(),
-        builder: () => const VE(d: VS(iso: NotFoundScreenDetails()))),
-    QRoute(
-        path: '/',
-        name: 'Dashboard',
-        pageType: const QFadePage(),
-        builder: () => const VE(d: VS(iso: DashboardScreen()))),
-    QRoute(
-      path: '/logout',
-      builder: () => const VE(d: VS(iso: DashboardScreen())),
-    ),
-    QRoute(
-      path: '/asset',
-      pageType: const QFadePage(),
-      meta: {
-        'title': 'Asset',
-      },
-      middleware: [
-        //AuthMiddleware(),
-      ],
-      builder: () => const VE(d: VS(iso: DashboardScreen())),
-      children: [
-        QRoute(
-          path: '/stock',
-          builder: () => VE(d: VS(iso: RegisterDetails())),
-          children: [
-            QRoute(
-              path: '/:name',
-              pageType: const QMaterialPage(),
-              builder: () => VE(
-                  d: VS(
-                      iso: StockIsolate(
-                asset: "stock",
-                stock: QR.params['name'].toString(),
-
-                //service: IsarService(),
-              ))),
-              children: [
-                QRoute(
-                  path: '/info',
-                  pageType: const QMaterialPage(),
-                  builder: () => VE(d: VS(iso: LoginDetails())),
-                ),
-              ],
-            ),
-          ],
-        ),
-        QRoute(
-          path: '/products',
-          builder: () => VE(d: VS(iso: LoginDetails())),
-        ),
-      ],
-    ),
-  ];
-}
-
 class VirtualEngine extends StatelessWidget {
   VirtualEngine({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final appRoutes = AppRoutes();
+    appRoutes.setup();
     return MaterialApp.router(
-      routerDelegate: QRouterDelegate(AppRoutes().route, initPath: '/'),
+      routerDelegate: QRouterDelegate(appRoutes.route, initPath: '/'),
       routeInformationParser: QRouteInformationParser(),
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
