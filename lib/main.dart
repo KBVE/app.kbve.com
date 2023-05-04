@@ -38,7 +38,8 @@ class VirtualEngine extends StatelessWidget {
     final appRoutes = AppRoutes();
     appRoutes.setup();
     return MaterialApp.router(
-      routerDelegate: QRouterDelegate(appRoutes.route),
+      routerDelegate: QRouterDelegate(appRoutes.route,
+          initPath: '/', alwaysAddInitPath: true),
       routeInformationParser: QRouteInformationParser(),
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
@@ -46,7 +47,6 @@ class VirtualEngine extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
-      restorationScopeId: 'app',
     );
   }
 }

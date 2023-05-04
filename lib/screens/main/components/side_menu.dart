@@ -21,21 +21,21 @@ class SideMenu extends StatelessWidget {
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashboard.svg",
             press: () {
-              QR.to('/');
+              QR.toName('app');
             },
           ),
           DrawerListTile(
             title: "Asset",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {
-              QR.to('/asset');
+              QR.toName('asset');
             },
           ),
           DrawerListTile(
             title: "Tools",
             svgSrc: "assets/icons/menu_task.svg",
             press: () {
-              QR.to('/tools');
+              QR.toName('tools');
             },
           ),
           DrawerListTile(
