@@ -1,13 +1,18 @@
 //*       [STOCK] - Isolate
-
-import 'package:admin/entities/stock.dart';
-import 'package:admin/isar_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+Future<String> fetchStockBox(String box) =>
+    // Imagine that this function is more complex and slow.
+    Future.delayed(
+      const Duration(seconds: 2),
+      () => 'Large Latte',
+    );
 
 class StockIsolate extends StatelessWidget {
   final String stock;
-  final IsarService service;
-  const StockIsolate({Key? key, required this.stock, required this.service})
+  final String asset;
+  const StockIsolate({Key? key, required this.asset, required this.stock})
       : super(key: key);
 
   @override
@@ -16,16 +21,14 @@ class StockIsolate extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FutureBuilder<Stock?>(
-            future: service.getStockFor(stock),
+          FutureBuilder<String?>(
+            future: fetchStockBox(stock),
             builder: (context, snapshot) {
               if (snapshot.hasError) return Text(snapshot.error.toString());
               if (snapshot.hasData) {
                 return Row(children: [
                   const Text("Stock: "),
-                  Text(snapshot.hasData
-                      ? snapshot.data!.title
-                      : "No Stock Found!")
+                  Text(snapshot.hasData ? snapshot.data! : "No Stock Found!")
                 ]);
               }
               return const Center(child: CircularProgressIndicator());
