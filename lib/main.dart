@@ -3,7 +3,6 @@
 //  Purpose: Nerves System and Brain off the application.
 //*  [IMPORT]
 import 'dart:io';
-import 'package:admin/utils/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'; //  Library: Flutter -> Material Purpose:  Providing the inner core of the UI/UX for the application, as well as, the main aesthetics for the application front end design.
 import 'package:flutter/services.dart'; //  Library: Flutter -> Services
@@ -11,8 +10,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 //*  [IMPORT] -> [Pub.dev]
 import 'package:google_fonts/google_fonts.dart'; //  Library: Google -> Fonts Purpose: Providing the font files for the application.
 import 'package:provider/provider.dart'; //  Purpose: A wrapper for the widgets that will be handle the state / action management.
-import 'package:qlevar_router/qlevar_router.dart'; // Purpose: Replace go_router
 //*   [IMPORT]  -> [App]:[LIB]
+import 'package:admin/routes/index.dart';
 import 'package:admin/screens/dashboard/components/header.dart';
 import 'package:admin/constants.dart'; //  Purpose: Storing constant variables throughout the application.
 import 'package:admin/controllers/MenuController.dart'; //  Purpose:  Handling the menu / drawer for the application.
@@ -35,19 +34,22 @@ class VirtualEngine extends StatelessWidget {
   VirtualEngine({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final appRoutes = AppRoutes();
-    appRoutes.setup();
     return MaterialApp.router(
-      routerDelegate: QRouterDelegate(appRoutes.route,
-          initPath: '/', alwaysAddInitPath: true),
-      routeInformationParser: QRouteInformationParser(),
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.white),
-        canvasColor: secondaryColor,
-      ),
-    );
+        routeInformationParser: AppRouter.router.routeInformationParser,
+        routerDelegate: AppRouter.router.routerDelegate,
+        routeInformationProvider: AppRouter.router.routeInformationProvider,
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: bgColor,
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+              .apply(bodyColor: Colors.white),
+          canvasColor: secondaryColor,
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: ZoomPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            },
+          ),
+        ));
   }
 }
 

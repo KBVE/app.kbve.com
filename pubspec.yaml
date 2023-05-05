@@ -37,7 +37,7 @@ dependencies:
   data_table_2: ^2.3.3
   http: ^0.13.5
   #json_helpers: ^0.1.5
-  qlevar_router: ^1.9.0
+  #qlevar_router: ^1.9.0
   deep_pick: ^1.0.0
   cryptography: ^2.5.0
   cryptography_flutter: ^2.0.2

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 // Go Router
-import 'package:qlevar_router/qlevar_router.dart'; // Purpose: Replace go_router
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -21,63 +21,63 @@ class SideMenu extends StatelessWidget {
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashboard.svg",
             press: () {
-              QR.toName('app');
+              context.go('/');
             },
           ),
           DrawerListTile(
             title: "Asset",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {
-              QR.toName('asset');
+              context.go('/asset');
             },
           ),
           DrawerListTile(
             title: "Tools",
             svgSrc: "assets/icons/menu_task.svg",
             press: () {
-              QR.toName('tools');
+              context.go('/tools');
             },
           ),
           DrawerListTile(
             title: "Documents",
             svgSrc: "assets/icons/menu_doc.svg",
             press: () {
-              QR.to('/note');
+              context.go('/documents');
             },
           ),
           DrawerListTile(
             title: "Store",
             svgSrc: "assets/icons/menu_store.svg",
             press: () {
-              QR.to('/store');
+              context.go('/store');
             },
           ),
           DrawerListTile(
             title: "Login",
             svgSrc: "assets/icons/menu_notification.svg",
             press: () {
-              QR.to('/login');
+              context.go('/login');
             },
           ),
           DrawerListTile(
             title: "Account",
             svgSrc: "assets/icons/menu_profile.svg",
             press: () {
-              QR.to('/account');
+              context.go('/account');
             },
           ),
           DrawerListTile(
             title: "Settings",
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {
-              QR.to('/account/setting');
+              context.go('/account/settings');
             },
           ),
           DrawerListTile(
             title: "Charts",
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {
-              QR.to('/asset/stock/tsla');
+              context.go('/asset/stock/tsla');
             },
           ),
         ],
