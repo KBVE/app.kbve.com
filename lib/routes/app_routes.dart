@@ -3,10 +3,6 @@ enum AppRoutes {
     name: 'dashboard',
     path: '/',
   ),
-  asset(
-    name: 'asset',
-    path: '/asset',
-  ),
   login(
     name: 'login',
     path: '/login',
@@ -15,14 +11,7 @@ enum AppRoutes {
     name: 'logout',
     path: '/logout',
   ),
-  tools(
-    name: 'tools',
-    path: '/tools',
-  ),
-  application(
-    name: 'application',
-    path: '/application',
-  );
+  ;
 
   const AppRoutes({
     required this.name,
