@@ -30,7 +30,7 @@ class AppRouter {
         pageBuilder: (context, state) {
           return MaterialPage(
             key: state.pageKey,
-            child: const VE(d: VS(iso: LoginDetails())),
+            child: const VE(d: VS(iso: LoginScreen())),
           );
         },
       ),
@@ -40,10 +40,46 @@ class AppRouter {
         pageBuilder: (context, state) {
           return MaterialPage(
             key: state.pageKey,
-            child: const VE(d: VS(iso: LoginDetails())),
+            child: const VE(d: VS(iso: LoginScreen())),
           );
         },
       ),
+      GoRoute(
+          name: AppRoutes.asset.name,
+          path: AppRoutes.asset.path,
+          pageBuilder: (context, state) {
+            return MaterialPage(
+              key: state.pageKey,
+              child: const VE(d: VS(iso: LoginScreen())),
+            );
+          },
+          routes: [
+            GoRoute(
+              name: 'stock',
+              path: 'stock',
+              pageBuilder: (context, state) {
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: VE(d: VS(iso: LoginScreen())),
+                );
+              },
+            ),
+            GoRoute(
+              name: 'stock_',
+              path: 'stock/:stockId',
+              pageBuilder: (context, state) {
+                var stockId = '';
+                if (state.pathParameters['stockId'] != null)
+                  stockId = state.pathParameters['stockId'].toString();
+
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: VE(
+                      d: VS(iso: StockIsolate(asset: 'stock', stock: stockId))),
+                );
+              },
+            )
+          ]),
     ],
   );
 }
