@@ -4,13 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:admin/utils/isolate.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-Future<String> fetchStockBox(String box) =>
-    // Imagine that this function is more complex and slow.
-    Future.delayed(
-      const Duration(seconds: 2),
-      () => 'Large Latte',
-    );
-
 class StockIsolate extends StatelessWidget {
   final String stock;
   final String asset;
@@ -24,12 +17,14 @@ class StockIsolate extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FutureBuilder<String?>(
-            future: fetchHive('asset/stock', stock),
+            future: fetchHive(asset, stock),
             builder: (context, snapshot) {
               if (snapshot.hasError) return Text(snapshot.error.toString());
               if (snapshot.hasData) {
                 return Container(
-                  child: MarkdownBody(data: snapshot.data as String),
+                  child: MarkdownBody(
+                      data: (snapshot.data as String)
+                          .substring((snapshot.data as String).indexOf('#'))),
                 );
               }
               return const Center(child: CircularProgressIndicator());
