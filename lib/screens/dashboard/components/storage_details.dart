@@ -1,8 +1,9 @@
+//*     [IMPORT]
 import 'package:flutter/material.dart';
+import 'package:admin/constants.dart';
 
-import '../../../constants.dart';
-import 'chart.dart';
-import 'storage_info_card.dart';
+import 'package:admin/screens/dashboard/components/chart.dart';
+import 'package:admin/screens/dashboard/components/storage_info_card.dart';
 
 class StarageDetails extends StatelessWidget {
   const StarageDetails({
@@ -49,12 +50,19 @@ class StarageDetails extends StatelessWidget {
           ),
           StorageInfoCard(
             svgSrc: "assets/icons/unknown.svg",
-            title: "Unknown",
-            amountOfFiles: "1.3GB",
-            numOfFiles: 140,
+            title: "Unknown Bush",
+            amountOfFiles: "Millions Dead",
+            numOfFiles: 911,
           ),
         ],
       ),
     );
   }
 }
+
+//? Migrate the StorageInfoCard concept with the existing JSON data endpoint?
+//? /static/json/storage_data.json will be called with the information.
+//? We can generate the information from appwrite and strapi APIs.
+//? We can also call MDX information and use that as an endpoint.
+
+//List<StorageInfoCard> infoCards = []

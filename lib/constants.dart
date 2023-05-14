@@ -47,6 +47,5 @@ const staticAPI = 'https://kbve.com/';
 //  Purpose:  Location of the GraphQL API for the application.
 //  Event:    vX || Null as of right now.
 //  const gAPI  = '';
-
 /*  [END] */
  

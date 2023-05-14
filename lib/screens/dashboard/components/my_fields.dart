@@ -1,10 +1,13 @@
+//*     [IMPORTS]
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+//*     [LIB]
 import 'package:admin/models/MyFiles.dart';
 import 'package:admin/responsive.dart';
-import 'package:flutter/material.dart';
+import 'package:admin/constants.dart';
+import 'package:admin/screens/dashboard/components/file_info_card.dart';
 
-import '../../../constants.dart';
-import 'file_info_card.dart';
-
+//*     [MyFiles]->{SLW}->[&Over]=>{SLW}
 class MyFiles extends StatelessWidget {
   const MyFiles({
     Key? key,
@@ -19,20 +22,37 @@ class MyFiles extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "My Files",
+              "My AirFiles",
+              //! AirFiles might be a copyrighted term? Cloud Files?
               style: Theme.of(context).textTheme.titleMedium,
             ),
             ElevatedButton.icon(
               style: TextButton.styleFrom(
                 padding: EdgeInsets.symmetric(
-                  horizontal: defaultPadding * 1.5,
+                  horizontal: defaultPadding / 2,
                   vertical:
                       defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.go('/kill');
+              }, //! Press action missing?
               icon: Icon(Icons.add),
-              label: Text("Add New"),
+              label: Text("Kill Hitler"),
+            ),
+            ElevatedButton.icon(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.symmetric(
+                  horizontal: defaultPadding / 2,
+                  vertical:
+                      defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
+                ),
+              ),
+              onPressed: () {
+                context.go('/login');
+              }, //! Press action missing?
+              icon: Icon(Icons.add),
+              label: Text("Login"),
             ),
           ],
         ),

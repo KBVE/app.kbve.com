@@ -18,10 +18,10 @@ class CloudStorageInfo {
 
 List demoMyFiles = [
   CloudStorageInfo(
-    title: "Documents",
+    title: "KBVE",
     numOfFiles: 1328,
     svgSrc: "assets/icons/Documents.svg",
-    totalStorage: "1.9GB",
+    totalStorage: "2.5GB",
     color: primaryColor,
     percentage: 35,
   ),
