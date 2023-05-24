@@ -5,34 +5,55 @@ import sys
 import webbrowser
 import argparse
 import shlex
+import threading
 #from pathlib import Path
+
+# Data
+
+logfile = 'test.log'
+command = ['flutter', 'run', "-d", "chrome"]
 
 # Commands
 def run(command: str, check: bool = None, output: bool = True, cwd: str = None):
     return subprocess.run( shlex.split(command), check=check, stdout=subprocess.DEVNULL if not output else None, cwd=cwd)
 
+
+def writer(p, logfile):
+    with open(logfile, 'w+') as f:
+        for line in p.stdout:
+            print(line.rstrip())
+            f.write(line)
 # Path
 
 #new_env = os.environ.copy()
 #new_env["PATH"] = os.pathsep.join(["./",new_env["PATH"]])
-
 #process_now = subprocess.run(["ls", "-l"],env=new_env)
+
+
 
 print('[Flutter]')
 print('... => Starting Flutter Doctor')
+
+
+with open("test.log", "ab") as f:
+    process = subprocess.Popen(command, stdout=subprocess.PIPE,  shell=True)
+    for c in iter(lambda: process.stdout.read(1), b""):
+        sys.stdout.buffer.write(c)
+        f.write(c)
+
 
 #command = ["which", "flutter"]
 
 #run(f'flutter', check=True, output=True)
 
-return_code = subprocess.run(['flutter', 'run', "-d", "chrome"], capture_output=True, text=True, shell=True)
-print(return_code.stdout)
+#return_code = subprocess.run(['flutter', 'run', "-d", "chrome"], capture_output=True, text=True, shell=True)
+#print(return_code.stdout)
 #return_code = run(f'ls', check=True, output=True)
 
-if return_code == 0:
-    print("Command executed successfully.")
-else:
-    print("Command failed with return code", return_code)
+#if return_code == 0:
+#    print("Command executed successfully.")
+#else:
+#    print("Command failed with return code", return_code)
 
 #try:
 #    out = subprocess.run(command, shell=True, check=True, capture_output=True, text=True).stdout
