@@ -1,8 +1,12 @@
-import 'package:admin/responsive.dart';
+//*     [IMPORTS]
 import 'package:flutter/material.dart';
+//*     [LIB]
+import 'package:admin/responsive.dart';
 import 'package:admin/models/MyFiles.dart';
-import '../../../constants.dart';
-import 'file_info_card.dart';
+import 'package:admin/constants.dart';
+import 'package:admin/screens/dashboard/components/file_info_card.dart';
+//import '../../../constants.dart';
+//import 'file_info_card.dart';
 
 class MyFiles extends StatelessWidget {
   const MyFiles({
@@ -18,7 +22,7 @@ class MyFiles extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "My Files",
+              "My Files!",
               style: Theme.of(context).textTheme.titleMedium,
             ),
             ElevatedButton.icon(
@@ -33,6 +37,14 @@ class MyFiles extends StatelessWidget {
               icon: Icon(Icons.add),
               label: Text("Add New"),
             ),
+            //! Elevated Button not in use, onPress function
+            //? We could add a modal to help with the structure? The UX/UI
+            //? The modal should load from i18n so that we can support multi lang.
+            //? The action could also be a stateless widget that can be expanded and logged?
+            //! Privacy and ethics concern over if we want to log the user actions at this level.
+            //! We could easily do it via the stateless widget, since that can be referenced globally.
+            //! Furthermore we can push the data directly to Grafana via Dio library.
+            //TODO Automated reporting for failed events? I think its a bad idea.
           ],
         ),
         SizedBox(height: defaultPadding),

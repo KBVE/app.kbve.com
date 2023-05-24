@@ -7,14 +7,18 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'dart:convert';
+import 'package:admin/constants.dart';
 
 //?       Once ISAR 3.0 works with web, we could swap out `hive` with it.
 
 //?       fetchBody will check
+//TODO     API should be read from constants?
+//?       We should migrate the log system outside of the current setup.
 Future<String?> fetchBody(String path, String file) async {
   debugPrint('[DIO] -> [Fetching Data]');
   Response response;
-  response = await Dio().get('https://kbve.com/$path/$file.json');
+  //response = await Dio().get('https://kbve.com/$path/$file.json');
+  response = await Dio().get('$staticAPI$path/$file.json');
   debugPrint('[DIO] -> Resposne $response');
   final json = (response.data);
   debugPrint('[DIO] -> JSON $json');
@@ -24,6 +28,7 @@ Future<String?> fetchBody(String path, String file) async {
 }
 
 //?       fetchHive
+//?  We want to store information locally via the hivedb.
 Future<String?> fetchHive(String path, String file) async {
   debugPrint('[Calling fetchBody]');
   debugPrint('[Opening HiveBox]');
